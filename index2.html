@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+
+
+<button type="submit" id="subm1">Submit</button><br />
+<label class="userValues"></label><br />
+<label class="userValues2"></label>
+<script>
+
+
+    let initialData = JSON.parse(localStorage.getItem('initialData'));
+    if (initialData === null) {
+        initialData = [];
+    } else {
+        initialData = JSON.parse(localStorage.getItem('initialData'));
+    }
+    console.log(initialData);
+
+    const pUsers2 = document.querySelector('.userValues2');
+    const cBut = [];
+    let i = 0;
+
+    function printValues(initialData) {
+
+        for (var k in initialData) {
+            if (initialData[k] instanceof Object) {
+                printValues(initialData[k]);
+            } else {
+                if (k === "product") {
+                    pUsers2.innerHTML += "<br /> Наименование: <br />" + initialData[k] + "<br />";
+                } else {
+                    pUsers2.innerHTML += "Комментарий: <br />" + initialData[k] + "<br />";
+                };
+            };
+
+        };
+        if (initialData[k] != "[object Object]") {
+            i = i + 1;
+            cBut.push(i);
+            pUsers2.innerHTML += `<button class="del${cBut[cBut.length - 1]}">Delete</button> <br /> <br />`;
+        };
+        //const btn1 = document.querySelectorAll("button");
+        // console.log(btn1);
+    };
+
+
+    //for (let i = 1; i <= cBut.length; i++) {
+
+    document.addEventListener('click', (e) => {
+        //for (var k in initialData) {
+        //     initialData.splice(cBut[i], 1);
+        //     localStorage.setItem('initialData', JSON.stringify(initialData));
+        //};
+        //printValues(initialData);
+        console.log(e.target.className);
+        let str1 = e.target.className;
+        console.log(str1.substr(3));
+        console.log(initialData[str1.substr(3) - 1]);
+        //console.log(event.currentTarget);
+        // e.target.addEventListener('click', (e) => {
+        //console.log("fffff");
+        if ((initialData[str1.substr(3) - 1]) != undefined) {
+            initialData = JSON.parse(localStorage.getItem('initialData'));
+            initialData.splice(str1.substr(3) - 1, 1);
+            localStorage.setItem('initialData', JSON.stringify(initialData));
+            location.reload();
+        };
+
+        //printValues(initialData);
+        //e.target.parentNode.remove();
+        //console.log(e.target.parentNode);
+        //e.target.parentNode.removeChild(e.target);
+        //});
+    });
+    //  };
+    printValues(initialData);
+</script>
+</body>
+
+</html>
